@@ -36,6 +36,9 @@
             canvasCtx.font="20px Georgia";
             canvasCtx.fillStyle="rgb(0,0,0)";
             canvasCtx.fillText('正在解析：'+this.file.name,10,50);
+            if (this.source) {
+                this.source.stop();
+            }
             fileReader.onload = function(e) {
                 var audioData = e.target.result;
                 _this.audioCtx.decodeAudioData(audioData).then(function(decodedData) { //解析音频文件
@@ -51,9 +54,6 @@
             var analyser = this.audioCtx.createAnalyser();
         	if (this.drawVisual) {
         		cancelAnimationFrame(this.drawVisual);
-        	}
-        	if (this.source) {
-        		this.source.stop();
         	}
             this.source = this.audioCtx.createBufferSource();
             this.source.buffer = decodedData;
